@@ -14,6 +14,13 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  save: function(req, res) {
+    db.Book
+      .findById({ _id: req.params.id })
+      .update({saved: true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   remove: function(req, res) {
     db.Book
       .findById({ _id: req.params.id })

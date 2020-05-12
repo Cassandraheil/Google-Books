@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import API from "../utils/api";
-import {DeleteBtn} from "../components/Buttons";
+import {DeleteBtn, SaveBtn } from "../components/Buttons";
 import { Input, SearchBtn, SavedBtn } from "../components/Form";
 import { List, ListItem } from "../components/List";
-// import {Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 
 class Books extends Component {
@@ -57,6 +57,12 @@ class Books extends Component {
     });
   };
 
+  saveBook = id => {
+    API.saveBook(id)
+    .then(res => this.loadBooks())
+    .catch(err => console.log(err));
+    }
+
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.search) {
@@ -71,7 +77,7 @@ class Books extends Component {
 
   render() {
     return (
-      <div>
+      <container fluid>
         <form>
           <Input
             value={this.state.search}
@@ -93,21 +99,21 @@ class Books extends Component {
           <List>
             {this.state.books.map(book => (
               <ListItem key={book._id}>
-                <a href={"/books/" + book._id}>
-                  <strong>
-                    {book.title} by {book.authors}
-                  </strong>
-                </a>
+              <Link to={"/books/" + book._id}>
+                <strong>
+                  {book.title} by {book.author}
+                </strong>
+              </Link>
             <p>{book.summary}</p>
-                <DeleteBtn onClick={() =>
-                  this.deleteBook(book._id)} />
-              </ListItem>
+            <SaveBtn onClick={() => this.saveBook(book._id)}/>
+              <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+            </ListItem>
             ))}
           </List>
         ) : (
             <h3>No Results to Display</h3>
           )}
-      </div>
+      </container>
     );
   }
 }
