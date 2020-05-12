@@ -37,7 +37,6 @@ render() {
                 </strong>
               </Link>
             <p>{book.summary}</p>
-            <SaveBtn onClick={() => this.saveBook(book._id)}/>
               <DeleteBtn onClick={() => this.deleteBook(book._id)} />
             </ListItem>
             ))}
