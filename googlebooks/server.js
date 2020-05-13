@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
+const routes = require("./routes");
 
 
 var mongoose = require("mongoose");
@@ -16,16 +17,8 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-const googleBooks = new mongoose.Schema({
-  authors: String,
-  description: String,
-  image: String,
-  link: String,
-  title: String
-});
 // Define API routes here
-
-// Send every other request to the React app
+app.use(routes)
 
 // Define any API routes before this runs
 app.get("*", (req, res) => {

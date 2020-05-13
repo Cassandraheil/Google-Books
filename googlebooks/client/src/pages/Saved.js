@@ -7,6 +7,25 @@ import {Link} from "react-router-dom";
 
 class Saved extends Component {
 
+  componentDidMount() {
+    this.loadBooks();
+  }
+
+  loadBooks = () => {
+    API.getSavedBooks()
+      .then(res => {
+        console.log("this res.data", res.data)
+      this.setState({ books: res.data })
+    } )
+      .catch(err => console.log(err));
+  };
+  
+  deleteBook = id => {
+    API.deleteBook(id)
+      .then(res => this.loadBooks())
+      .catch(err => console.log(err));
+  };
+
 render() {
     return (
       <container fluid>

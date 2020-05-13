@@ -12,10 +12,6 @@ class Books extends Component {
     search: ""
   };
 
-  componentDidMount() {
-    this.loadBooks();
-  }
-
   searchBook = event => {
     event.preventDefault();
     API.getBooks(
@@ -25,7 +21,9 @@ class Books extends Component {
 
       for (var i = 0; i < res.data.items.length; i++) {
         for (var j = 0; j < res.data.items[i].volumeInfo.authors.length; j++) {
-          searchedBooks.push({title: res.data.items[i].volumeInfo.title, authors: res.data.items[i].volumeInfo.authors[j], summary: res.data.items[i].searchInfo.textSnippet});
+          searchedBooks.push({title: res.data.items[i].volumeInfo.title, 
+          authors: res.data.items[i].volumeInfo.authors[j], 
+          summary: res.data.items[i].searchInfo.textSnippet});
         }
       }
       console.log("title/author", searchedBooks)
@@ -38,17 +36,6 @@ class Books extends Component {
     console.log("books", this.state.books)
   }
 
-  loadBooks = () => {
-    API.getSavedBooks()
-      .then(res => this.setState({ books: res.data }))
-      .catch(err => console.log(err));
-  };
-
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
-      .catch(err => console.log(err));
-  };
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -58,10 +45,19 @@ class Books extends Component {
   };
 
   saveBook = id => {
-    API.saveBook(id)
-    .then(res => this.loadBooks())
-    .catch(err => console.log(err));
+    let book;
+    for (var i=0; i< this.state.books.length; i++){
+      const currentBook = this.state.books[i]
+      if(id === currentBook.id){
+        book = currentBook;
+      }
     }
+    API.saveBook(book)
+    .then(res => {
+      console.log("this is the response", res)
+      })
+    .catch(err => console.log(err));
+  }
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -83,7 +79,7 @@ class Books extends Component {
             value={this.state.search}
             onChange={this.handleInputChange}
             name="search"
-            placeholder="Title or Author (Required)"
+            placeholder= "Title or Author (Required)"
           />
           <SearchBtn
             disabled={!this.state.search}

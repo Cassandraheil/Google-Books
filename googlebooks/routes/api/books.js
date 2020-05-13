@@ -16,7 +16,7 @@ router
   router
   .route("/saved")
   .get(booksController.save)
-  .put(booksController.update)
+  .post(booksController.create)
   .delete(booksController.remove);
 
 
