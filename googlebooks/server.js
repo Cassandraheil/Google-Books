@@ -6,7 +6,9 @@ const routes = require("./routes");
 
 
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/reacthomework", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/reacthomework";
+
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 
 // Define middleware here
