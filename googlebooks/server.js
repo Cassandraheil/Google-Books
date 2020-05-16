@@ -6,7 +6,7 @@ const routes = require("./routes");
 
 
 var mongoose = require("mongoose");
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/reacthomework";
+var MONGODB_URI = "mongodb://cass:password1@ds139956.mlab.com:39956/heroku_37dwjk7j" || "mongodb://localhost/reacthomework";
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
